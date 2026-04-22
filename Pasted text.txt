@@ -1,0 +1,145 @@
+Build a full web application UI called ExamBrain — an AI-powered study assistant for university students. Use Next.js App Router, Tailwind CSS, and shadcn/ui components.
+
+DESIGN SYSTEM
+Aesthetic: Warm academic minimalism. Feels like a well-designed textbook, not a SaaS app. No gradients, no purple, no generic AI aesthetics.
+Fonts (import from Google Fonts):
+
+Lora (serif) — headings, question text, course names
+DM Sans — body text, labels, descriptions
+JetBrains Mono — question numbers, stats, tags, badges
+
+Colors (use as CSS variables):
+
+Background: #F8F5F0 (warm cream, not white)
+Text: #1C1917 (near-black)
+Primary accent: #C2522B (terracotta)
+Success / mastery: #5C7A5C (sage green)
+Warning / AI-generated label: #B8860B (amber)
+Border: #E8E4DE
+Muted text: #6B6460
+Card background: #FFFFFF
+Sidebar background: #F0EDE8
+
+Spacing base unit: 8px. Max content width: 720px centered.
+No heavy shadows. Depth via subtle borders and background color shifts only.
+Active states use terracotta underline, not filled pills.
+
+PAGE 1 — LANDING / LOGIN
+Layout: Single centered column, vertically centered on screen.
+Elements:
+
+Small all-caps label at top in JetBrains Mono, terracotta color: "AI STUDY ASSISTANT"
+Large Lora headline (48px, left-aligned): "Your notes. Your questions. Your exam pack." — underline the word "exam" in terracotta using a border-bottom trick, not text-decoration
+Two-sentence description in DM Sans, muted color: "Upload your lecture notes and past papers. ExamBrain extracts every question, generates model answers, and builds your flashcard deck automatically."
+Single button: "Continue with Google" — white background, terracotta border, terracotta text, Google icon on left, 44px height minimum
+Background: very subtle diagonal line texture using CSS repeating-linear-gradient at 3% opacity suggesting paper grain
+No illustrations, no hero image, no floating screenshots
+
+
+PAGE 2 — DASHBOARD (HOME)
+Layout: Fixed left sidebar (240px) + main content area.
+Sidebar contains:
+
+App name "ExamBrain" in Lora italic at top, terracotta
+Nav links with Lucide icons: Home, My Courses, Questions, Flashcards, Community, Search
+Active link: terracotta text + left border indicator (3px solid terracotta)
+At bottom: user avatar, name, "Sign out" link
+A compact "Due Today" section showing course name + card count badges in sage green
+
+Main area:
+
+Greeting: "Good morning, [Name]" in Lora, 24px
+Three horizontal priority cards in a row:
+
+"Due for Review" — card count in large terracotta number, "Start Review" button
+"Questions Pending" — unattempted question count, "Practice Now" button
+"Exam Countdown" — days remaining in large number, course name below
+
+
+Course grid below (2 columns): each card shows course name (Lora, 16px), subject tag (JetBrains Mono pill, sage green border), document count, question count, a small circular progress ring showing mastery %, and a subtle left border in terracotta. Hover state: border-color shifts to terracotta solid.
+
+
+PAGE 3 — COURSE PAGE
+Four tabs: Summary | Questions | Flashcards | Search
+Tab indicator: terracotta 2px underline on active tab, not filled pill.
+Summary Tab:
+
+Section heading "Key Concepts" in Lora
+Numbered list of 5–6 key points, each with a bold concept name and 2-sentence explanation in DM Sans
+Below that: "Topic Priority" section — a ranked list of exam topics each with a priority badge (High / Medium / Low) in corresponding colors
+If no summary generated yet: centered empty state card with "Generate Summary" button in terracotta
+
+Questions Tab:
+
+Three mode toggles top-right: "Topic" | "Paper" | "Shuffle" — small segmented control, terracotta active state
+Topic filter chips below (horizontal scroll): subject tags as outlined chips, terracotta when selected
+Each question rendered as a full-width card:
+
+Top row: question number in JetBrains Mono terracotta (e.g. "Q.14"), source badge ("Past Paper 2022" in sage or "AI Generated" in amber), marks badge ("5 marks")
+Question text in Lora 17px with good line-height
+"Reveal Answer" button — outlined, terracotta, full width of card
+When revealed: answer appears in a slightly warmer (#F5F0E8) background zone below, labeled "Model Answer" in small DM Sans caps with sage green color. Answer text in DM Sans.
+"Mark as Done" checkmark button top-right of card. When done: card opacity reduces to 60%, question text color shifts to muted.
+
+
+In Paper Mode: show progress bar at top + optional timer display
+
+Flashcards Tab:
+
+Due count displayed prominently: large number + "cards due today" in DM Sans
+"Start Review Session" button — full width, terracotta background, white text
+Below: card grid preview showing upcoming cards (front text only, muted)
+
+Flashcard Review Mode (full screen overlay or dedicated page):
+
+Centered card (max 560px wide) with generous padding
+Progress indicator top: "12 / 34" in JetBrains Mono
+Card front: concept in Lora 22px, centered
+"Tap to reveal" hint in muted small text
+On flip: smooth CSS 3D rotateY animation
+Card back: answer in DM Sans 16px
+Four rating buttons below in a row after flip:
+
+Again: dark red background
+Hard: amber background
+Good: sage green background
+Easy: bright green background
+All buttons: white text, 44px height minimum, equal width
+
+
+After session ends: calm completion card "All done for today" with sage green checkmark, stats summary
+
+Search Tab:
+
+Full-width search input with magnifier icon, auto-focus, placeholder "Search your notes, questions, flashcards..."
+Results appear below as typed — each result shows: content type badge (Note / Question / Flashcard) in JetBrains Mono, matched text with search term bolded in terracotta, source document name in muted text
+
+
+PAGE 4 — UPLOAD / ADD MATERIAL
+
+Drag-and-drop zone: large dashed border (#C2522B dashed), paperclip Lucide icon centered, text "Drop your notes, question papers, or syllabus here" in DM Sans
+On drag-over: border becomes solid terracotta, background warms slightly
+File type selector after upload: four option pills — Notes | Exam Paper | Syllabus | Question Bank — user must select one. This determines AI pipeline.
+Processing pipeline stages shown as a vertical checklist that checks off in real-time:
+
+◦ Extracting text
+◦ Identifying questions
+◦ Generating model answers
+◦ Building flashcards
+Each stage shows a spinning loader while active, green checkmark when done.
+
+
+
+
+PAGE 5 — COMMUNITY LIBRARY
+
+Page header: "Community Library" in Lora, subtitle "Share your notes. Help someone pass." in DM Sans italic muted
+Subject filter chips horizontal row (Engineering, Medicine, Law, Science, Commerce, Arts)
+Grid of pack cards (3 columns desktop, 1 mobile):
+
+Course name in Lora bold
+Subject tag in JetBrains Mono pill
+Stats row: question count, flashcard count
+Contributor: first name + initial only (privacy)
+"Clone to My Courses" button — outlined terracotta
+Subtle terracotta left border on card
